@@ -35,7 +35,7 @@ int main()
             howmany;			//total number students
 
     double  stu_raised[SIZE],  	//number an individual student raised
-    		avg_raised,			//average of all funds raised
+    		avg_raised,			//average of all funds raised in the array
             dutch_raised,       //total amount from dutch brothers
             chip_raised,        //total amount from chipotle
             sand_raised,        //total amount from sandwich spot
@@ -147,8 +147,8 @@ int main()
 
     howmany = k;	//readablilty
 
-    for (j = 0; j < howmany; j++)	//avg calculator
-    {
+    for (j = 0; j < howmany; j++)	//calculations of used portion of the array
+    {	
 
     }
 
