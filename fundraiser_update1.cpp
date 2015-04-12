@@ -25,8 +25,8 @@ void ClearScreen (int);			//clears screen with a loop of "\n"
 
 int main()
 {
-    int     id_num[SIZE],      //student's 5 digit id number
-            num_sold[SIZE],    //number of cards sold by an individual
+    int     id_num[SIZE],      	//student's 5 digit id number
+            num_sold[SIZE],    	//number of cards sold by an individual
             tot_dutch,          //total dutch bros cards sold
             tot_chip,           //total chipotle cards sold
             tot_sand,           //total sandwich spot cards sold
@@ -35,15 +35,18 @@ int main()
             howmany;			//total number students
 
     double  stu_raised[SIZE],  	//number an individual student raised
-    		avg_raised,			//average of all funds raised in the array
             dutch_raised,       //total amount from dutch brothers
             chip_raised,        //total amount from chipotle
             sand_raised,        //total amount from sandwich spot
-            tot_raised;         //total amount raised
+            tot_raised,         //total amount raised
+            tot_stu_raised,		//total of all values of stu_raised in array
+            avg_stu_raised,		//average of all funds raised in the array
+            min, max;			//assigns element to be highest or lowest value
 
     char    card_type[SIZE],   	//the type of card sold: D/d dutch, C/c chipotle, S/s sandwich
             yesno;              //loop controller, loops when = y or Y
 
+    //initilization of variables
     tot_dutch = 0;
     tot_chip = 0;
     tot_sand = 0;
@@ -56,6 +59,8 @@ int main()
     card_type = 0;
     num_sold = 0;
     k = 0;
+    tot_stu_raised = 0;
+    avg_stu_raised = 0;
     
     cout << "******************" << NAME << "'s Fundraiser Program******************\n" << fixed << setprecision(2);
 
@@ -118,11 +123,11 @@ int main()
 
         yesno = 'x' //requires entering the validation loop
 
-        while (!(yesno == 'Y' || yesno== 'y')&&(yesno == 'N' || yesno== 'n'))	//validation loop for valid character
+        while (!((yesno == 'Y' || yesno== 'y')&&(yesno == 'N' || yesno== 'n')))	//validation loop for valid character
         {
         	cout << "\n\nDo you have another student sale to enter? (y = yes n = no)"; //determines value of loop controller
         	cin >> yesno;
-        	if (!(yesno == 'Y' || yesno== 'y')&&(yesno == 'N' || yesno== 'n'))
+        	if (!((yesno == 'Y' || yesno== 'y')&&!(yesno == 'N' || yesno== 'n')))
         		cout << "\nThat is not a valid answer.";
     	}
         
@@ -146,13 +151,20 @@ int main()
     while (yesno == 'Y' || yesno == 'y'); //condition to begin loop again
 
     howmany = k;	//readablilty
+    max=min=stu_raised[k] //initilizing min/max after array is filled
 
-    for (j = 0; j < howmany; j++)	//calculations of used portion of the array
+    for (j = 0; j < howmany; j++)	//processing used portion of array
     {	
+    	tot_stu_raised += stu_raised[k];	//totaling all values of stu_raised in array
 
+    	if (stu_raised[k] > max)	//finding the max value of student raised funds
+    		max = stu_raised[k];
+    	if (stu_raised[k] < min)	//finding the min value of student raised funds
+    		min = stu_raised[k];
     }
 
-    tot_card = (tot_dutch + tot_chip + tot_sand); //increases total cards by sum of 3 seperate gift cards
+    avg_stu_raised = stu_raised / howmany;	//finds the average of all values of stu_raised in array
+	tot_card = (tot_dutch + tot_chip + tot_sand); //increases total cards by sum of 3 seperate gift cards
     tot_raised = (dutch_raised + chip_raised + sand_raised); //increases total revenue by sum of 3 seperate revenues
 
 
@@ -169,6 +181,9 @@ int main()
     cout << "\nTotal revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
     cout << "\nTotal revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
     cout << "\nTotal revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    cout << "\nAverage funds raised by a student\t\t\t" << setw(7) << tot_stu_raised;
+    cout << "\nLargest amount of individual funds raised\t\t" << setw(7) << max;
+    cout << "\nSmallest amount of individual funds raised\t\t" << setw(7) << min;
     cout << "\n\n\n";
 
     return 0;
