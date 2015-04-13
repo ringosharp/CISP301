@@ -20,6 +20,7 @@ using namespace std;
 #define SAND 2                	//amount earned on Sandwich Spot gift cards
 #define NAME "Patrick"          //someone's name. Mine, in this case
 #define SIZE 50					//the maximum size of the participating students
+#define SKOOL "Charter Middle"	//name of the school, cuz why not
 
 void ClearScreen (int);			//clears screen with a loop of "\n"
 
@@ -32,7 +33,7 @@ int main()
             tot_sand,           //total sandwich spot cards sold
             tot_card,           //total number of all gift cards sold
             j, k,				//counters
-            howmany;			//total number students
+            disp;				//how to display end of run report
 
     double  stu_raised[SIZE],  	//number an individual student raised
             dutch_raised,       //total amount from dutch brothers
@@ -41,7 +42,8 @@ int main()
             tot_raised,         //total amount raised
             tot_stu_raised,		//total of all values of stu_raised in array
             avg_stu_raised,		//average of all funds raised in the array
-            min, max;			//assigns element to be highest or lowest value
+            min, max,			//assigns element to be highest or lowest value
+            howmany;			//total number students
 
     char    card_type[SIZE],   	//the type of card sold: D/d dutch, C/c chipotle, S/s sandwich
             yesno;              //loop controller, loops when = y or Y
@@ -55,43 +57,48 @@ int main()
     chip_raised = 0;
     sand_raised = 0;
     tot_raised = 0;
-    id_num = 0;
-    card_type = 0;
-    num_sold = 0;
     k = 0;
     tot_stu_raised = 0;
     avg_stu_raised = 0;
+    disp = 0;
     
-    cout << "******************" << NAME << "'s Fundraiser Program******************\n" << fixed << setprecision(2);
+    ClearScreen (24);
+    cout << "       ****************** " << NAME << "'s Fundraiser Program ******************\n" << fixed << setprecision(2);
+    cout << "\n                     Fundraiser for: " << SKOOL << " School";
+    cout << "\n\n                              Press enter to begin";
+    ClearScreen(11);
+    cin.get();
+    ClearScreen (24);
 
     do    //post check loop asking for ID, card type, and number sold for each individual
     {
-        while (!(id_num >= 10000 && id_num <=99999)) //data validation requiring 5 digit ID
+    	cout << "                   ****** " << NAME << "'s Fundraiser Program ******\n";
+        while (!(id_num[k] >= 10000 && id_num[k] <= 99999)) //data validation requiring 5 digit ID
         {
             cout << "\nPlease enter student ID number:\t\t\t\t\t" << setw(10); 
             cin >> id_num[k];
-            if (!(id_num >= 10000 && id_num <=99999))
+            if (!(id_num[k] >= 10000 && id_num[k] <= 99999))
                 cout << "Please enter a valid 5 digit ID\n";
         }
 
-        while (card_type != 'D' && card_type != 'd' && card_type != 'S' && card_type != 's' && card_type != 'C' && card_type != 'c') //data validation allowing only the 6 possible letters
+        while (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c') //data validation allowing only the 6 possible letters
         {
             cout << "Please enter the type of card sold";
             cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
             cin >> card_type[k];
-            if (card_type != 'D' && card_type != 'd' && card_type != 'S' && card_type != 's' && card_type != 'C' && card_type != 'c')
+            if (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c')
                 cout << "Please enter a valid letter\n";
         }
 
-        while (num_sold <= 0) //data validation for int only
+        while (num_sold[k] <= 0) //data validation for int only
         {
             cout << "Please enter the number of cards sold: \t\t\t\t" << setw(10); 
             cin >> num_sold[k];
-            if (num_sold <= 0)
+            if (num_sold[k] <= 0)
                 cout << "Please enter a valid number greater than 0\n";
         }
 
-        switch (card_type) //calculates values based upon char entered
+        switch (card_type[k]) //calculates values based upon char entered
         {
             case 'D': //dutch bros gift card calculations
             case 'd':
@@ -119,80 +126,148 @@ int main()
             }
         }
 
-        cout << "\nStudent " << id_num << " raised the following amount for the school:\t$" << stu_raised;
+        cout << "\nStudent " << id_num[k] << " raised the following amount for the school:\t$" << stu_raised[k];
 
-        yesno = 'x' //requires entering the validation loop
+        yesno = 'x'; //requires entering the validation loop
 
-        while (!((yesno == 'Y' || yesno== 'y')&&(yesno == 'N' || yesno== 'n')))	//validation loop for valid character
+        while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))	//validation loop for valid character
         {
         	cout << "\n\nDo you have another student sale to enter? (y = yes n = no)"; //determines value of loop controller
         	cin >> yesno;
-        	if (!((yesno == 'Y' || yesno== 'y')&&!(yesno == 'N' || yesno== 'n')))
+        	if (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))
         		cout << "\nThat is not a valid answer.";
     	}
         
-        if (yesno == 'Y' || yesno== 'y')   //resets the values for the data validation loops at the beginning if loop controller positive
+        /*if (yesno == 'Y' || yesno== 'y')   //resets the values for the data validation loops at the beginning if loop controller positive
         {
             id_num = 0;         
             card_type = 0;     
             num_sold = 0;
-        }
+        }*/
 
         k ++;	//new student prep
 
-        if (k >= SIZE)	//kill switch
+        if (k > SIZE)	//kill switch
+        {
         	yesno = 'x';
         	cout << "\nMaximum data storage has been reached. \nPlease contact the program creator for assistance.";
         	cout <<  "\nThe end of run report will now print. \nPress enter.";
         	cin.get();
+        }
 
         ClearScreen (24);
     }
     while (yesno == 'Y' || yesno == 'y'); //condition to begin loop again
 
     howmany = k;	//readablilty
-    max=min=stu_raised[k] //initilizing min/max after array is filled
+    max = stu_raised[0];	//initilizing min/max after array is filled
+    min = stu_raised[0]; 
 
     for (j = 0; j < howmany; j++)	//processing used portion of array
     {	
-    	tot_stu_raised += stu_raised[k];	//totaling all values of stu_raised in array
+    	tot_stu_raised += stu_raised[j];	//totaling all values of stu_raised in array
 
-    	if (stu_raised[k] > max)	//finding the max value of student raised funds
-    		max = stu_raised[k];
-    	if (stu_raised[k] < min)	//finding the min value of student raised funds
-    		min = stu_raised[k];
+    	if (stu_raised[j] > max)	//finding the max value of student raised funds
+    		max = stu_raised[j];
+
+    	if (stu_raised[j] < min)	//finding the min value of student raised funds
+    		min = stu_raised[j];
     }
 
-    avg_stu_raised = stu_raised / howmany;	//finds the average of all values of stu_raised in array
+    avg_stu_raised = tot_stu_raised / howmany;	//finds the average of all values of stu_raised in array
 	tot_card = (tot_dutch + tot_chip + tot_sand); //increases total cards by sum of 3 seperate gift cards
     tot_raised = (dutch_raised + chip_raised + sand_raised); //increases total revenue by sum of 3 seperate revenues
 
+    while (disp != 1 && disp != 2)
+    {
+    	cout << "        How would you like to view the End of Run Report?";
+    	cout << "\n\n        Press 1 for a full list";
+    	cout << "\n        Press 2 for individual catergories\n";
+    	ClearScreen(11);
+    	cin >> disp;
+    	
+    	if (disp != 1 && disp != 2)
+    	{
+    		cout << "\nPlease enter a valid selection. Press enter to continue.";
+    		cin.get();
+    		cin.get();
+    		ClearScreen (24);
+    	}
+    }
+    ClearScreen(24);
 
+    switch (disp)
+    {
+    	case 1:	//prints all values that have been totaled in the loop in list
+    	{
+    		cin.get();
+    		cout << "\n\n       ****************** End of Run Report - List ******************"; 
+    		cout << "\n\nTotal number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
+    		cout << "\nTotal number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
+    		cout << "\nTotal number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
+    		cout << "\nTotal number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
+    		cout << "\n\nLargest amount of individual funds raised\t\t" << setw(7) << max;
+    		cout << "\nSmallest amount of individual funds raised\t\t" << setw(7) << min;
+    		cout << "\nAverage funds raised by a student\t\t\t" << setw(7) << avg_stu_raised;
+    		cout << "\n\nTotal revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
+    		cout << "\nTotal revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
+    		cout << "\nTotal revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
+    		cout << "\nTotal revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    		ClearScreen(8);
+    		cout << "\n                           Press enter to continue";
+    		cin.get();
+    		ClearScreen(24);
+    		break;
+    	}
+    	case 2: //prints all values that have been totaled in the loop in catergories
+    	{
+    		cin.get();
+    		cout << "\n    ****************** End of Run Report - Catergories ******************\n\n";
+    		cout << "                        Catergories are as follows:";
+    		cout << "\n\n                         - Gift Cards Sold ";
+    		cout << "\n                         - Individual Revenue Raised ";
+    		cout << "\n                         - Total Revenue Raised";
+    		ClearScreen(10);
+    		cout << "\n                            Press enter to continue";
+    		cin.get();
+    		ClearScreen(24);
+    		cout << "                        ****** Gift Cards Sold ******";
+    		cout << "\n\n         Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
+    		cout << "\n         Total number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
+    		cout << "\n         Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
+    		cout << "\n\n         Total number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
+    		ClearScreen(8);
+    		cout << "\n                            Press enter to continue";
+    		cin.get();
+    		ClearScreen(24);
+    		cout << "                     ****** Individual Revenue Raised ******";
+   			cout << "\n\n         Largest amount of individual funds raised\t\t" << setw(7) << max;
+    		cout << "\n         Smallest amount of individual funds raised\t\t" << setw(7) << min;
+    		cout << "\n         Average funds raised by a student\t\t\t" << setw(7) << avg_stu_raised;
+    		ClearScreen(10);
+    		cout << "\n                             Press enter to continue";
+    		cin.get();
+    		ClearScreen(24);
+    		cout << "                        ****** Total Revenue Raised ******";
+    		cout << "\n\n         Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
+    		cout << "\n         Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
+    		cout << "\n         Total revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
+    		cout << "\n\n         Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    		ClearScreen(8);
+    		cout << "\n                               Press enter to continue";
+    		cin.get();
+    		ClearScreen(24);
+    		break;
+    	}
+    }
 
-
-
-
-    cout << "\n******************End of Run Report******************"; //prints all values that have been totaled in the loop
-    cout << "\n\nTotal number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
-    cout << "\nTotal number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
-    cout << "\nTotal number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    cout << "\nTotal number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
-    cout << "\n\nTotal revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
-    cout << "\nTotal revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
-    cout << "\nTotal revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
-    cout << "\nTotal revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
-    cout << "\nAverage funds raised by a student\t\t\t" << setw(7) << tot_stu_raised;
-    cout << "\nLargest amount of individual funds raised\t\t" << setw(7) << max;
-    cout << "\nSmallest amount of individual funds raised\t\t" << setw(7) << min;
-    cout << "\n\n\n";
-
-    return 0;
+	return 0;
 }
 
 void ClearScreen (int num)
 {
 	int i;		//counter
-	for (i = 0; i < num: i++)
+	for (i = 0; i < num; i++)
 		cout << "\n";
 	return;
 }
