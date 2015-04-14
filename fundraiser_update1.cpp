@@ -66,6 +66,7 @@ int main()
     ClearScreen (24);
     cout << "       ****************** " << NAME << "'s Fundraiser Program ******************\n" << fixed << setprecision(2);
     cout << "\n                     Fundraiser for: " << SKOOL << " School";
+    ClearScreen(3);
     cout << "\n\n                              Press enter to begin";
     ClearScreen(11);
     cin.get();
@@ -76,10 +77,10 @@ int main()
     	cout << "                   ****** " << NAME << "'s Fundraiser Program ******\n";
         while (!(id_num[k] >= 10000 && id_num[k] <= 99999)) //data validation requiring 5 digit ID
         {
-            cout << "\nPlease enter student ID number:\t\t\t\t\t" << setw(10); 
+            cout << "\nPlease enter 5 digit student ID number:\t\t\t\t" << setw(10); 
             cin >> id_num[k];
             if (!(id_num[k] >= 10000 && id_num[k] <= 99999))
-                cout << "Please enter a valid 5 digit ID\n";
+                cout << "\n  ==ERROR== \n**Invalid ID**\n";
         }
 
         while (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c') //data validation allowing only the 6 possible letters
@@ -88,15 +89,15 @@ int main()
             cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
             cin >> card_type[k];
             if (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c')
-                cout << "Please enter a valid letter\n\n";
+                cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
         }
 
-        while (num_sold[k] <= 0) //data validation for int only
+        while (num_sold[k] < 0) //data validation for int only
         {
-            cout << "Please enter the number of cards sold: \t\t\t\t" << setw(10); 
+            cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10); 
             cin >> num_sold[k];
-            if (num_sold[k] <= 0)
-                cout << "Please enter a valid number greater than 0\n\n";
+            if (num_sold[k] < 0)
+                cout << "\n  ==ERROR== \n**Invalid Number**\n\n";
         }
 
         switch (card_type[k]) //calculates values based upon char entered
@@ -137,23 +138,20 @@ int main()
         	cout << "\n\nDo you have another student sale to enter? (y = yes n = no)"; //determines value of loop controller
         	cin >> yesno;
         	if (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))
-        		cout << "\nThat is not a valid answer.";
+        		cout << "\n  ==ERROR== \n**Invalid Character**\n";
     	}
-        
-        /*if (yesno == 'Y' || yesno== 'y')   //resets the values for the data validation loops at the beginning if loop controller positive
-        {
-            id_num = 0;         
-            card_type = 0;     
-            num_sold = 0;
-        }*/
 
         k ++;	//new student prep
 
         if (k > SIZE)	//kill switch
         {
         	yesno = 'x';
-        	cout << "\nMaximum data storage has been reached. \nPlease contact the program creator for assistance.";
-        	cout <<  "\nThe end of run report will now print. \nPress enter.";
+            cout << "\n                                  ===ERROR===";
+        	cout << "\n                   **Maximum data storage has been reached.**";
+            cout << "\n               Please contact the program creator for assistance.";
+        	cout << "\n                    The end of run report will now print.";
+            ClearScreen(3);
+            cout << "\n                                 Press enter.";
         	cin.get();
         }
 
@@ -161,7 +159,7 @@ int main()
     }
     while (yesno == 'Y' || yesno == 'y'); //condition to begin loop again
 
-    howmany = k;	//readablilty
+    howmany = k;	//readablilty for later in program
     max = stu_raised[0];	//initilizing min/max after array is filled
     min = stu_raised[0]; 
 
@@ -191,7 +189,9 @@ int main()
     	if (disp != 1 && disp != 2)
     	{
     		ClearScreen(24);
-    		cout << "\n        Please enter a valid number. Press enter to continue.";
+            cout << "                                 ==ERROR==\n";
+            cout << "                         **Invalid Number Entered**\n";
+    		cout << "\n          Please enter a valid number. Press enter to continue.";
     		ClearScreen(12);
     		cin.get();
     		cin.get();
