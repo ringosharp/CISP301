@@ -9,6 +9,7 @@
 *******************************************************************************
 *  PIT    03/25/2015  Created Program                                         *
 *  PIT    04/08/2015  Update #1 - Added Arrays & Funds Calculation Processes  *
+*  PIT    04/13/2015  Bugfixes and Expanded Output Screen Options             *
 ******************************************************************************/
 
 #include <iomanip>
@@ -219,6 +220,7 @@ int main()
     		ClearScreen(24);
     		break;
     	}
+    	
     	case 2: //prints all values that have been totaled in the loop in catergories
     	{
     		cin.get();
