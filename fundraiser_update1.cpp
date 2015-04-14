@@ -47,7 +47,7 @@ int main()
             howmany;			//total number students
 
     char    card_type[SIZE],   	//the type of card sold: D/d dutch, C/c chipotle, S/s sandwich
-            yesno;              //loop controller, loops when = y or Y
+            yesno;              //loop controller, loops when == y or Y
 
     //initilization of variables
     tot_dutch = 0;
@@ -88,7 +88,7 @@ int main()
             cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
             cin >> card_type[k];
             if (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c')
-                cout << "Please enter a valid letter\n";
+                cout << "Please enter a valid letter\n\n";
         }
 
         while (num_sold[k] <= 0) //data validation for int only
@@ -96,7 +96,7 @@ int main()
             cout << "Please enter the number of cards sold: \t\t\t\t" << setw(10); 
             cin >> num_sold[k];
             if (num_sold[k] <= 0)
-                cout << "Please enter a valid number greater than 0\n";
+                cout << "Please enter a valid number greater than 0\n\n";
         }
 
         switch (card_type[k]) //calculates values based upon char entered
@@ -127,6 +127,7 @@ int main()
             }
         }
 
+        cout << "\n========================================================================";
         cout << "\nStudent " << id_num[k] << " raised the following amount for the school:\t$" << stu_raised[k];
 
         yesno = 'x'; //requires entering the validation loop
@@ -189,10 +190,12 @@ int main()
     	
     	if (disp != 1 && disp != 2)
     	{
-    		cout << "\nPlease enter a valid selection. Press enter to continue.";
+    		ClearScreen(24);
+    		cout << "\n        Please enter a valid number. Press enter to continue.";
+    		ClearScreen(12);
     		cin.get();
     		cin.get();
-    		ClearScreen (24);
+    		ClearScreen(24);
     	}
     }
     ClearScreen(24);
@@ -203,19 +206,19 @@ int main()
     	{
     		cin.get();
     		cout << "\n\n       ****************** End of Run Report - List ******************"; 
-    		cout << "\n\nTotal number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
-    		cout << "\nTotal number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
-    		cout << "\nTotal number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    		cout << "\nTotal number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
-    		cout << "\n\nLargest amount of individual funds raised\t\t" << setw(7) << max;
-    		cout << "\nSmallest amount of individual funds raised\t\t" << setw(7) << min;
-    		cout << "\nAverage funds raised by a student\t\t\t" << setw(7) << avg_stu_raised;
-    		cout << "\n\nTotal revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
-    		cout << "\nTotal revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
-    		cout << "\nTotal revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
-    		cout << "\nTotal revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    		cout << "\n\n    Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
+    		cout << "\n    Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< tot_chip;
+    		cout << "\n    Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
+    		cout << "\n    Total number of all gift cards sold\t\t\t\t" << setw (7) <<tot_card;
+    		cout << "\n\n    Largest amount of individual funds raised\t\t\t" << setw(7) << max;
+    		cout << "\n    Smallest amount of individual funds raised\t\t\t" << setw(7) << min;
+    		cout << "\n    Average funds raised by a student\t\t\t\t" << setw(7) << avg_stu_raised;
+    		cout << "\n\n    Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
+    		cout << "\n    Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
+    		cout << "\n    Total revenue from Sandwich Spot gift cards\t\t\t" << setw(7) << sand_raised;
+    		cout << "\n    Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
     		ClearScreen(8);
-    		cout << "\n                           Press enter to continue";
+    		cout << "\n                          Press enter to continue";
     		cin.get();
     		ClearScreen(24);
     		break;
@@ -224,22 +227,23 @@ int main()
     	case 2: //prints all values that have been totaled in the loop in catergories
     	{
     		cin.get();
-    		cout << "\n    ****************** End of Run Report - Catergories ******************\n\n";
-    		cout << "                        Catergories are as follows:";
-    		cout << "\n\n                         - Gift Cards Sold ";
-    		cout << "\n                         - Individual Revenue Raised ";
-    		cout << "\n                         - Total Revenue Raised";
+    		cout << "\n    ****************** End of Run Report - Catergories ******************\n\n\n";
+    		cout << "                        Catergories are as follows:\n";
+    		cout << "\n                        - Gift Cards Sold ";
+    		cout << "\n                        - Individual Revenue Raised ";
+    		cout << "\n                        - Total Revenue Raised";
     		ClearScreen(10);
-    		cout << "\n                            Press enter to continue";
+    		cout << "\n                          Press enter to continue";
     		cin.get();
     		ClearScreen(24);
     		cout << "                        ****** Gift Cards Sold ******";
     		cout << "\n\n         Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
     		cout << "\n         Total number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
     		cout << "\n         Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    		cout << "\n\n         Total number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
-    		ClearScreen(8);
-    		cout << "\n                            Press enter to continue";
+    		cout << "\n        ================================================================";
+    		cout << "\n         Total number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
+    		ClearScreen(9);
+    		cout << "\n                           Press enter to continue";
     		cin.get();
     		ClearScreen(24);
     		cout << "                     ****** Individual Revenue Raised ******";
@@ -247,16 +251,17 @@ int main()
     		cout << "\n         Smallest amount of individual funds raised\t\t" << setw(7) << min;
     		cout << "\n         Average funds raised by a student\t\t\t" << setw(7) << avg_stu_raised;
     		ClearScreen(10);
-    		cout << "\n                             Press enter to continue";
+    		cout << "\n                            Press enter to continue";
     		cin.get();
     		ClearScreen(24);
     		cout << "                        ****** Total Revenue Raised ******";
     		cout << "\n\n         Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
     		cout << "\n         Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
     		cout << "\n         Total revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
-    		cout << "\n\n         Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
-    		ClearScreen(8);
-    		cout << "\n                               Press enter to continue";
+    		cout << "\n        ================================================================";
+    		cout << "\n         Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    		ClearScreen(9);
+    		cout << "\n                             Press enter to continue";
     		cin.get();
     		ClearScreen(24);
     		break;
