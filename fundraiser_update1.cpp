@@ -10,6 +10,7 @@
 *  PIT    03/25/2015  Created Program                                         *
 *  PIT    04/08/2015  Update #1 - Added Arrays & Funds Calculation Processes  *
 *  PIT    04/13/2015  Bugfixes and Expanded Output Screen Options             *
+*  PIT    04/19/2015  Added zero cards sold option                            *
 ******************************************************************************/
 
 #include <iomanip>
@@ -101,9 +102,10 @@ int main()
 			if (num_sold[k] == 0)
 			{
 				yesno = 'x';
+				cout << "\n  ==WARNING== \n**No cards sold by student**";
 				while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))   //validation loop for valid character
                 {
-                    cout << "\n  ==WARNING== \n**No cards sold by student**\nDo you wish to continue?";
+                	cout << "\nDo you wish to continue? (y = yes n = no) ";
 				    cin >> yesno;
 				    if (yesno == 'N' || yesno == 'n')
 					   num_sold[k] = -2;
