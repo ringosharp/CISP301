@@ -86,19 +86,19 @@ int main()
 
         while (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c') //data validation allowing only the 6 possible letters
         {
-            cout << "Please enter the type of card sold";
+            cout << "\nPlease enter the type of card sold";
             cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
             cin >> card_type[k];
             if (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c')
                 cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
         }
 
-       while (num_sold[k] < -1) //data validation for int only
-	   {
+        while (num_sold[k] <= -1) //data validation for int only
+        {
 			cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
 			cin >> num_sold[k];
 			if (num_sold[k] < 0)
-				cout << "\n  ==ERROR== \n**Invalid Number**\n\n";
+				cout << "\n  ==ERROR== \n**Invalid Number**\n";
 			if (num_sold[k] == 0)
 			{
 				yesno = 'x';
