@@ -68,7 +68,7 @@ int main()
     cout << "       ****************** " << NAME << "'s Fundraiser Program ******************\n" << fixed << setprecision(2);
     cout << "\n                     Fundraiser for: " << SKOOL << " School";
     ClearScreen(3);
-    cout << "\n\n                              Press enter to begin";
+    cout << "\n\n                              Press Enter to Begin";
     ClearScreen(11);
     cin.get();
     ClearScreen (24);
@@ -103,7 +103,7 @@ int main()
 			{
 				yesno = 'x';
 				cout << "\n  ==WARNING== \n**No cards sold by student**";
-				while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))   //validation loop for valid character
+				while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno == 'n'))   //validation loop for valid character
                 {
                 	cout << "\nDo you wish to continue? (y = yes n = no) ";
 				    cin >> yesno;
@@ -122,7 +122,7 @@ int main()
             case 'D': //dutch bros gift card calculations
             case 'd':
             {
-                if (stu_raised[k] < 0)
+                if (num_sold[k] <= 0)
                 	stu_raised[k] = 0;
                 else
                 {              
@@ -135,7 +135,7 @@ int main()
             case 'C': //chipotle gift card calculations
             case 'c':
             {
-                if (stu_raised[k] < 0)
+                if (num_sold[k] <= 0)
                 	stu_raised[k] = 0;
                 else
                 {              
@@ -148,7 +148,7 @@ int main()
             case 'S': //sandwich spot gift card calculations
             case 's':
             {
-                if (stu_raised[k] < 0)
+                if (num_sold[k] <= 0)
                 	stu_raised[k] = 0;
                 else
                 {              
@@ -179,7 +179,7 @@ int main()
         {
         	yesno = 'x';
             cout << "\n                                  ===ERROR===";
-        	cout << "\n                   **Maximum data storage has been reached.**";
+        	cout << "\n                   **Maximum data storage has been reached**";
             cout << "\n               Please contact the program creator for assistance.";
         	cout << "\n                    The end of run report will now print.";
             ClearScreen(3);
@@ -214,10 +214,9 @@ int main()
     {
     	cout << "        How would you like to view the End of Run Report?";
     	cout << "\n\n        Press 1 for a full list";
-    	cout << "\n        Press 2 for individual catergories\n";
+    	cout << "\n        Press 2 for individual catergoies\n";
     	ClearScreen(11);
-    	cin >> disp;
-    	
+    	cin >> disp;    	
     	if (disp != 1 && disp != 2)
     	{
     		ClearScreen(24);
@@ -259,8 +258,8 @@ int main()
     	case 2: //prints all values that have been totaled in the loop in catergories
     	{
     		cin.get();
-    		cout << "\n    ****************** End of Run Report - Catergories ******************\n\n\n";
-    		cout << "                        Catergories are as follows:\n";
+    		cout << "\n    ****************** End of Run Report - Categories ******************\n\n\n";
+    		cout << "                        Categories are as follows:\n";
     		cout << "\n                        - Gift Cards Sold ";
     		cout << "\n                        - Individual Revenue Raised ";
     		cout << "\n                        - Total Revenue Raised";
