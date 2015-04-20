@@ -92,41 +92,68 @@ int main()
                 cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
         }
 
-        while (num_sold[k] < 0) //data validation for int only
-        {
-            cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10); 
-            cin >> num_sold[k];
-            if (num_sold[k] < 0)
-                cout << "\n  ==ERROR== \n**Invalid Number**\n\n";
-        }
+       while (num_sold[k] < -1) //data validation for int only
+		{
+			cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
+			cin >> num_sold[k];
+			if (num_sold[k] < 0)
+				cout << "\n  ==ERROR== \n**Invalid Number**\n\n";
+			if (num_sold[k] == 0)
+			{
+				yesno = 'x';
+				cout << "\n  ==WARNING== \n**No cards sold by student**\nDo you wish to continue?";
+				cin >> yesno;
+				if (yesno == 'N' || yesno == 'n')
+					num_sold[k] = -2;
+				else if (yesno == 'Y' || yesno == 'y')
+					num_sold[k] = 0;
+				else
+					cout << "\n  ==ERROR==\n **Invalid Character**\n"
+			}
+		}
 
         switch (card_type[k]) //calculates values based upon char entered
         {
             case 'D': //dutch bros gift card calculations
             case 'd':
             {
-                tot_dutch = tot_dutch + num_sold[k];
-                stu_raised[k] = DUTCH * num_sold[k];
-                dutch_raised = dutch_raised + stu_raised[k];
+                if (stu_raised[k] < 0)
+                	stu_raised[k] = 0;
+                else
+                {              
+                	tot_dutch = tot_dutch + num_sold[k];
+                	stu_raised[k] = DUTCH * num_sold[k];               
+                	dutch_raised = dutch_raised + stu_raised[k];
+            	}
                 break;
             }
             case 'C': //chipotle gift card calculations
             case 'c':
             {
-                tot_chip = tot_chip + num_sold[k];
-                stu_raised[k] = CHIP * num_sold[k];
-                chip_raised = chip_raised + stu_raised[k];
+                if (stu_raised[k] < 0)
+                	stu_raised[k] = 0;
+                else
+                {              
+                	tot_chip = tot_chip + num_sold[k];
+                	stu_raised[k] = CHIP * num_sold[k];
+                	chip_raised = chip_raised + stu_raised[k];
+            	}               
                 break;
             }
             case 'S': //sandwich spot gift card calculations
             case 's':
             {
-                tot_sand = tot_sand + num_sold[k];
-                stu_raised[k] = SAND * num_sold[k];
-                sand_raised = sand_raised + stu_raised[k];
+                if (stu_raised[k] < 0)
+                	stu_raised[k] = 0;
+                else
+                {              
+                	tot_sand = tot_sand + num_sold[k];
+                	stu_raised[k] = SAND * num_sold[k];            
+                	sand_raised = sand_raised + stu_raised[k];
+            	}               
                 break;
             }
-        }
+        }         
 
         cout << "\n========================================================================";
         cout << "\nStudent " << id_num[k] << " raised the following amount for the school:\t$" << stu_raised[k];
@@ -135,7 +162,7 @@ int main()
 
         while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))	//validation loop for valid character
         {
-        	cout << "\n\nDo you have another student sale to enter? (y = yes n = no)"; //determines value of loop controller
+        	cout << "\n\nDo you have another student sale to enter? (y = yes n = no) "; //determines value of loop controller
         	cin >> yesno;
         	if (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))
         		cout << "\n  ==ERROR== \n**Invalid Character**\n";
