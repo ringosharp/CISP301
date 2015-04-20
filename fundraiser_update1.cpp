@@ -93,7 +93,7 @@ int main()
         }
 
        while (num_sold[k] < -1) //data validation for int only
-		{
+	   {
 			cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
 			cin >> num_sold[k];
 			if (num_sold[k] < 0)
@@ -101,14 +101,17 @@ int main()
 			if (num_sold[k] == 0)
 			{
 				yesno = 'x';
-				cout << "\n  ==WARNING== \n**No cards sold by student**\nDo you wish to continue?";
-				cin >> yesno;
-				if (yesno == 'N' || yesno == 'n')
-					num_sold[k] = -2;
-				else if (yesno == 'Y' || yesno == 'y')
-					num_sold[k] = 0;
-				else
-					cout << "\n  ==ERROR==\n **Invalid Character**\n"
+				while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno== 'n'))   //validation loop for valid character
+                {
+                    cout << "\n  ==WARNING== \n**No cards sold by student**\nDo you wish to continue?";
+				    cin >> yesno;
+				    if (yesno == 'N' || yesno == 'n')
+					   num_sold[k] = -2;
+				    else if (yesno == 'Y' || yesno == 'y')
+					   num_sold[k] = 0;
+				    else
+					   cout << "\n  ==ERROR==\n **Invalid Character**\n";
+                }
 			}
 		}
 
