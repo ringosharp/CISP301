@@ -25,6 +25,7 @@ using namespace std;
 #define SKOOL "Charter Middle"	//name of the school, cuz why not
 
 void ClearScreen (int);			//clears screen with a loop of "\n"
+//void BubbleSort (double, int, int, int, int, char); //sorts the array least to greatest by amount stuent sold
 
 int main()
 {
@@ -34,8 +35,11 @@ int main()
             tot_chip,           //total chipotle cards sold
             tot_sand,           //total sandwich spot cards sold
             tot_card,           //total number of all gift cards sold
-            j, k,				//counters
-            disp;				//how to display end of run report
+            j, k, u, v,			//counters
+            disp,				//how to display end of run report
+            int_temp,           //temp value for storing one integer
+            swap_flag,          //swapped if 1, no swap if 0
+            left;               //number comparisons to make
 
     double  stu_raised[SIZE],  	//number an individual student raised
             dutch_raised,       //total amount from dutch brothers
@@ -45,10 +49,12 @@ int main()
             tot_stu_raised,		//total of all values of stu_raised in array
             avg_stu_raised,		//average of all funds raised in the array
             min, max,			//assigns element to be highest or lowest value
-            howmany;			//total number students
+            howmany,			//total number students
+            db_temp;            //temp value for storing one double
 
     char    card_type[SIZE],   	//the type of card sold: D/d dutch, C/c chipotle, S/s sandwich
-            yesno;              //loop controller, loops when == y or Y
+            yesno,              //loop controller, loops when == y or Y
+            ch_temp;            //temp value for storing one character
 
     //initilization of variables
     tot_dutch = 0;
@@ -60,6 +66,7 @@ int main()
     sand_raised = 0;
     tot_raised = 0;
     k = 0;
+    v = 0;
     tot_stu_raised = 0;
     avg_stu_raised = 0;
     disp = 0;
@@ -99,26 +106,10 @@ int main()
         {
 			cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
 			cin >> num_sold[k];
-			if (num_sold[k] < 0)
+			if (num_sold[k] <= 0)
 				cout << "\n  ==ERROR== \n**Invalid Number**\n";
-			if (num_sold[k] == 0)
-			{
-				yesno = 'x';
-				cout << "\n  ==WARNING== \n**No cards sold by student**";
-				while (!(yesno == 'Y' || yesno== 'y' || yesno == 'N' || yesno == 'n'))   //validation loop for valid character
-                {
-                	cout << "\nDo you wish to continue? (y = yes n = no) ";
-				    cin >> yesno;
-				    if (yesno == 'N' || yesno == 'n')
-					   num_sold[k] = -2;
-				    else if (yesno == 'Y' || yesno == 'y')
-					   num_sold[k] = 0;
-				    else
-					   cout << "\n  ==ERROR==\n **Invalid Character**\n";
-                }
-			}
 		}
-        while (num_sold[k] <= -1); //data validation for int only
+        while (num_sold[k] <= 0); //data validation for int only
 
         switch (card_type[k]) //calculates values based upon char entered
         {
@@ -194,115 +185,103 @@ int main()
         ClearScreen (24);
     }
     while (yesno == 'Y' || yesno == 'y'); //condition to begin loop again
+    cin.get();
 
-    howmany = k;	//readablilty for later in program
+    howmany = k;    //readablilty for later in program
+    do
+    {
+        if (v > 0) //sort by student raised - completes second time through
+        {
+            left = howmany - 1;
+            do 
+            {
+                swap_flag = 0;
+                for (u = 0; u < left; u++)
+                {
+                    if (stu_raised[u] > stu_raised[u+1]) //bubble condition to sort by student raised
+                    {
+                        db_temp = stu_raised[u];    //moves the student raised
+                        stu_raised[u] = stu_raised[u+1];
+                        stu_raised[u+1] = db_temp;
+
+                        int_temp = id_num[u];   //moves the id num
+                        id_num[u] = id_num[u+1];
+                        id_num[u+1] = int_temp;
+
+                        int_temp = num_sold[u]; //moves the num sold
+                        num_sold[u] = num_sold[u+1];
+                        num_sold[u+1] = int_temp;
+
+                        ch_temp = card_type[u]; //moves the card type
+                        card_type[u] = card_type[u+1];
+                        card_type[u+1] = ch_temp;
+
+                        swap_flag = 1;
+                    }
+                }
+                left--;
+            }
+            while ((left > 0) && (swap_flag == 1));
+            cout << "\t               ***Sorted Data - Revenue:***\n\n";
+        }
+        else
+            cout << "\t               ***Raw Data Entered:***\n\n";
+        cout << "\tStudent ID    Card Type    Number Sold    Revenue Raised\n";
+
+        for (j = 0; j < howmany; j++)
+        {
+            cout << "\t  " << id_num[j] << "\t\t  " << card_type[j] << "\t     " << setw(4) << num_sold[j] << "\t     " << setw(7) << stu_raised[j] <<"\n";
+        }
+        while (v = 0)
+        {
+          cout << "Press enter to continue";
+            cin.get();
+            ClearScreen(24);  
+        }
+        
+        v++; 
+    }
+    while(v = 1);
+    cout << "Press enter to continue";
+        cin.get();
+        ClearScreen(24);
+
     max = stu_raised[0];	//initilizing min/max after array is filled
     min = stu_raised[0]; 
 
     for (j = 0; j < howmany; j++)	//processing used portion of array
     {	
     	tot_stu_raised += stu_raised[j];	//totaling all values of stu_raised in array
-
     	if (stu_raised[j] > max)	//finding the max value of student raised funds
     		max = stu_raised[j];
-
     	if (stu_raised[j] < min)	//finding the min value of student raised funds
-    		min = stu_raised[j];
+    		min = stu_raised[j];            
     }
+    ClearScreen(8);
 
     avg_stu_raised = tot_stu_raised / howmany;	//finds the average of all values of stu_raised in array
 	tot_card = (tot_dutch + tot_chip + tot_sand); //increases total cards by sum of 3 seperate gift cards
     tot_raised = (dutch_raised + chip_raised + sand_raised); //increases total revenue by sum of 3 seperate revenues
 
-    while (disp != 1 && disp != 2)
-    {
-    	cout << "        How would you like to view the End of Run Report?";
-    	cout << "\n\n        Press 1 for a full list";
-    	cout << "\n        Press 2 for individual catergoies\n";
-    	ClearScreen(11);
-    	cin >> disp;    	
-    	if (disp != 1 && disp != 2)
-    	{
-    		ClearScreen(24);
-            cout << "                                 ==ERROR==\n";
-            cout << "                         **Invalid Number Entered**\n";
-    		cout << "\n          Please enter a valid number. Press enter to continue.";
-    		ClearScreen(12);
-    		cin.get();
-    		cin.get();
-    		ClearScreen(24);
-    	}
-    }
+
     ClearScreen(24);
-
-    switch (disp)
-    {
-    	case 1:	//prints all values that have been totaled in the loop in list
-    	{
-    		cin.get();
-    		cout << "\n\n       ****************** End of Run Report - List ******************"; 
-    		cout << "\n\n    Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
-    		cout << "\n    Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< tot_chip;
-    		cout << "\n    Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    		cout << "\n    Total number of all gift cards sold\t\t\t\t" << setw (7) <<tot_card;
-    		cout << "\n\n    Largest amount of individual funds raised\t\t\t" << setw(7) << max;
-    		cout << "\n    Smallest amount of individual funds raised\t\t\t" << setw(7) << min;
-    		cout << "\n    Average funds raised by a student\t\t\t\t" << setw(7) << avg_stu_raised;
-    		cout << "\n\n    Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
-    		cout << "\n    Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
-    		cout << "\n    Total revenue from Sandwich Spot gift cards\t\t\t" << setw(7) << sand_raised;
-    		cout << "\n    Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
-    		ClearScreen(8);
-    		cout << "\n                          Press enter to continue";
-    		cin.get();
-    		ClearScreen(24);
-    		break;
-    	}
-    	
-    	case 2: //prints all values that have been totaled in the loop in catergories
-    	{
-    		cin.get();
-    		cout << "\n    ****************** End of Run Report - Categories ******************\n\n\n";
-    		cout << "                        Categories are as follows:\n";
-    		cout << "\n                        - Gift Cards Sold ";
-    		cout << "\n                        - Individual Revenue Raised ";
-    		cout << "\n                        - Total Revenue Raised";
-    		ClearScreen(10);
-    		cout << "\n                          Press enter to continue";
-    		cin.get();
-    		ClearScreen(24);
-    		cout << "                        ****** Gift Cards Sold ******";
-    		cout << "\n\n         Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
-    		cout << "\n         Total number of Chipotle gift cards sold\t\t" << setw(7)<< tot_chip;
-    		cout << "\n         Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    		cout << "\n        ================================================================";
-    		cout << "\n         Total number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
-    		ClearScreen(9);
-    		cout << "\n                           Press enter to continue";
-    		cin.get();
-    		ClearScreen(24);
-    		cout << "                     ****** Individual Revenue Raised ******";
-   			cout << "\n\n         Largest amount of individual funds raised\t\t" << setw(7) << max;
-    		cout << "\n         Smallest amount of individual funds raised\t\t" << setw(7) << min;
-    		cout << "\n         Average funds raised by a student\t\t\t" << setw(7) << avg_stu_raised;
-    		ClearScreen(10);
-    		cout << "\n                            Press enter to continue";
-    		cin.get();
-    		ClearScreen(24);
-    		cout << "                        ****** Total Revenue Raised ******";
-    		cout << "\n\n         Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
-    		cout << "\n         Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
-    		cout << "\n         Total revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
-    		cout << "\n        ================================================================";
-    		cout << "\n         Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
-    		ClearScreen(9);
-    		cout << "\n                             Press enter to continue";
-    		cin.get();
-    		ClearScreen(24);
-    		break;
-    	}
-    }
-
+    cout << "\n\n       ****************** End of Run Report - List ******************"; 
+    cout << "\n\n    Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
+    cout << "\n    Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< tot_chip;
+    cout << "\n    Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
+    cout << "\n    Total number of all gift cards sold\t\t\t\t" << setw (7) <<tot_card;
+    cout << "\n\n    Largest amount of individual funds raised\t\t\t" << setw(7) << max;
+    cout << "\n    Smallest amount of individual funds raised\t\t\t" << setw(7) << min;
+    cout << "\n    Average funds raised by a student\t\t\t\t" << setw(7) << avg_stu_raised;
+    cout << "\n\n    Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
+    cout << "\n    Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
+    cout << "\n    Total revenue from Sandwich Spot gift cards\t\t\t" << setw(7) << sand_raised;
+    cout << "\n    Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    ClearScreen(6);
+    cout << "\n                          Press enter to continue";
+    cin.get();
+    ClearScreen(24);
+    		
 	return 0;
 }
 
@@ -313,3 +292,46 @@ void ClearScreen (int num)
 		cout << "\n";
 	return;
 }
+
+/*void BubbleSort (double stu_raised[], int id_num[], int, num_sold[], int howmany, char card_type[])
+{
+    int     int_temp;   //temp value for storing one integer
+            u;  //counter   
+            swap_flag;  //swapped if 1, no swap if 0
+            left;   //number comparisons to make
+    double  db_temp;    //temp value for storing one double
+    char    ch_temp;    //temp value for storing one character
+
+
+    left = howmany - 1;
+    do 
+    {
+        swap_flag = 0;
+        for (u = 0; u < left; u++)
+        {
+            if (stu_raised[u] > stu_raised[u+1]) //bubble condition
+            {
+                db_temp = stu_raised[u];    //moves the student raised
+                stu_raised[u] = stu_raised[u+1];
+                stu_raised[u+1] = db_temp;
+
+                int_temp = id_num[u];   //moves the id num
+                id_num[u] = id_num[u+1];
+                id_num[u+1] = int_temp;
+
+                int_temp = num_sold[u]; //moves the num sold
+                num_sold[u] = num_sold[u+1];
+                num_sold[u+1] = int_temp;
+
+                ch_temp = card_type[u]; //moves the card type
+                card_type[u] = card_type[u+1];
+                card_type[u+1] = ch_temp;
+
+                swap_flag = 1;
+            }
+        }
+        left--;
+    }
+    while ((left > 0) && (swap_flag == 1));
+    return;
+}*/
