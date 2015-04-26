@@ -11,6 +11,8 @@
 *  PIT    04/08/2015  Update #1 - Added Arrays & Funds Calculation Processes  *
 *  PIT    04/13/2015  Bugfixes and Expanded Output Screen Options             *
 *  PIT    04/19/2015  Added zero cards sold option                            *
+*  PIT    04/20/2015  Update #2 - Bubble Sort Added                           *
+*  PIT    04/25/2015  Made Bubble Sort a Function                             *
 ******************************************************************************/
 
 #include <iomanip>
@@ -24,7 +26,8 @@ using namespace std;
 #define SIZE 50                 //the maximum size of the participating students
 #define SKOOL "Charter Middle"  //name of the school, cuz why not
 
-void ClearScreen (int);         //clears screen with a loop of "\n"
+void ClearScreen (int num);         //clears screen with a loop of "\n"
+void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[]); //sorts the array least to greatest by amount stuent sold
 
 int main()
 {
@@ -34,7 +37,7 @@ int main()
             tot_chip,           //total chipotle cards sold
             tot_sand,           //total sandwich spot cards sold
             tot_card,           //total number of all gift cards sold
-            j, k,               //counters
+            j, k, v,            //counters
             disp;               //how to display end of run report
 
     double  stu_raised[SIZE],   //number an individual student raised
@@ -60,6 +63,7 @@ int main()
     sand_raised = 0;
     tot_raised = 0;
     k = 0;
+    v = 0;
     tot_stu_raised = 0;
     avg_stu_raised = 0;
     disp = 0;
@@ -194,25 +198,45 @@ int main()
         ClearScreen (24);
     }
     while (yesno == 'Y' || yesno == 'y'); //condition to begin loop again
-
+    cin.get();
     howmany = k;    //readablilty for later in program
+
+    do
+    {
+        if (v > 0) //sort by student raised - completes second time through
+            BubbleSort(stu_raised, id_num, num_sold, howmany, card_type);            
+        else
+            cout << "\t                   ***Raw Data Entered***\n\n";
+        cout << "\tStudent ID    Card Type    Number Sold    Revenue Raised\n";
+
+        for (j = 0; j < howmany; j++) //loop to display array
+        {
+            cout << "\t  " << id_num[j] << "\t\t  " << card_type[j] << "\t     " << setw(4) << num_sold[j] << "\t     " << setw(7) << stu_raised[j] <<"\n";
+        }
+        cout << "\n                          Press enter to continue";        
+        cin.get();
+        ClearScreen(24);
+        v++;    
+    }
+    while(v == 1);
+
     max = stu_raised[0];    //initilizing min/max after array is filled
     min = stu_raised[0]; 
 
     for (j = 0; j < howmany; j++)   //processing used portion of array
     {   
         tot_stu_raised += stu_raised[j];    //totaling all values of stu_raised in array
-
         if (stu_raised[j] > max)    //finding the max value of student raised funds
             max = stu_raised[j];
-
         if (stu_raised[j] < min)    //finding the min value of student raised funds
-            min = stu_raised[j];
+            min = stu_raised[j];            
     }
+    ClearScreen(8);
 
     avg_stu_raised = tot_stu_raised / howmany;  //finds the average of all values of stu_raised in array
     tot_card = (tot_dutch + tot_chip + tot_sand); //increases total cards by sum of 3 seperate gift cards
     tot_raised = (dutch_raised + chip_raised + sand_raised); //increases total revenue by sum of 3 seperate revenues
+
 
     while (disp != 1 && disp != 2)
     {
@@ -302,7 +326,7 @@ int main()
             break;
         }
     }
-
+            
     return 0;
 }
 
@@ -311,5 +335,49 @@ void ClearScreen (int num)
     int i;      //counter
     for (i = 0; i < num; i++)
         cout << "\n";
+    return;
+}
+
+void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[])
+{
+    int     int_temp,   //temp value for storing one integer
+            u,  //counter   
+            swap_flag,  //swapped if 1, no swap if 0
+            left;   //number comparisons to make
+    double  db_temp;    //temp value for storing one double
+    char    ch_temp;    //temp value for storing one character
+
+
+    left = howmany - 1;
+    do 
+    {
+        swap_flag = 0;
+        for (u = 0; u < left; u++)
+        {
+            if (stu_raised[u] > stu_raised[u+1]) //bubble condition
+            {
+                db_temp = stu_raised[u];    //moves the student raised
+                stu_raised[u] = stu_raised[u+1];
+                stu_raised[u+1] = db_temp;
+
+                int_temp = id_num[u];   //moves the id num
+                id_num[u] = id_num[u+1];
+                id_num[u+1] = int_temp;
+
+                int_temp = num_sold[u]; //moves the num sold
+                num_sold[u] = num_sold[u+1];
+                num_sold[u+1] = int_temp;
+
+                ch_temp = card_type[u]; //moves the card type
+                card_type[u] = card_type[u+1];
+                card_type[u+1] = ch_temp;
+
+                swap_flag = 1;
+            }
+        }
+        left--;
+    }
+    while ((left > 0) && (swap_flag == 1));
+        cout << "\t                ***Sorted Data - Revenue***\n\n";
     return;
 }

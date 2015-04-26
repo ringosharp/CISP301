@@ -9,8 +9,9 @@
 *******************************************************************************
 *  PIT    03/25/2015  Created Program                                         *
 *  PIT    04/08/2015  Update #1 - Added Arrays & Funds Calculation Processes  *
-*  PIT    04/13/2015  Bugfixes and Expanded Output Screen Options             *
-*  PIT    04/19/2015  Added zero cards sold option                            *
+*  PIT    04/13/2015  Bugfixes                                                *
+*  PIT    04/20/2015  Update #2 - Bubble Sort Added                           *
+*  PIT    04/25/2015  Made Bubble Sort a Function                             *
 ******************************************************************************/
 
 #include <iomanip>
