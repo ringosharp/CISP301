@@ -12,6 +12,7 @@
 *  PIT    04/13/2015  Bugfixes                                                *
 *  PIT    04/20/2015  Update #2 - Bubble Sort Added                           *
 *  PIT    04/25/2015  Made Bubble Sort a Function                             *
+*  PIT    04/27/2015  Update #3 - Everything is Functions                     *
 ******************************************************************************/
 
 #include <iomanip>
@@ -25,8 +26,17 @@ using namespace std;
 #define SIZE 50					//the maximum size of the participating students
 #define SKOOL "Charter Middle"	//name of the school, cuz why not
 
-void ClearScreen (int num);			//clears screen with a loop of "\n"
+//function prototypes - variables beginning with f are pulled from main but specific to the individual function
+void ClearScreen (int num);		//clears screen with a loop of "\n"
+void DashedLine (void);     //outputs
+int IdNumber (void);    //gets the id number, includes data validation
+char CardType (void);   //gets card type, includes data validation
+int CardSold (void);    //gets num sold, includes data validation
+double StudentRaised (int num_sold, char card_type);   //calculates the funds raised by a student
 void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[]); //sorts the array least to greatest by amount stuent sold
+int ReportCardSold (int tot_dutch, int tot_chip, int tot_sand, int tot_card);
+double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised);
+double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised);
 
 int main()
 {
@@ -77,33 +87,10 @@ int main()
     do    //post check loop asking for ID, card type, and number sold for each individual
     {
     	cout << "                   ****** " << NAME << "'s Fundraiser Program ******\n";
-        do
-        {
-            cout << "\nPlease enter 5 digit student ID number:\t\t\t\t" << setw(10); 
-            cin >> id_num[k];
-            if (!(id_num[k] >= 10000 && id_num[k] <= 99999))
-                cout << "\n  ==ERROR== \n**Invalid ID**\n";
-        }
-        while (!(id_num[k] >= 10000 && id_num[k] <= 99999)); //data validation requiring 5 digit ID
-
-        do
-        {
-            cout << "\nPlease enter the type of card sold";
-            cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
-            cin >> card_type[k];
-            if (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c')
-                cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
-        }
-        while (card_type[k] != 'D' && card_type[k] != 'd' && card_type[k] != 'S' && card_type[k] != 's' && card_type[k] != 'C' && card_type[k] != 'c'); //data validation allowing only the 6 possible letters
-        
-        do
-        {
-			cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
-			cin >> num_sold[k];
-			if (num_sold[k] <= 0)
-				cout << "\n  ==ERROR== \n**Invalid Number**\n";
-		}
-        while (num_sold[k] <= 0); //data validation for int only
+        DashedLine();
+        id_num[k] = IdNumber();
+        card_type[k] = CardType();
+        num_sold[k] = CardSold();
 
         switch (card_type[k]) //calculates values based upon char entered
         {
@@ -115,7 +102,7 @@ int main()
                 else
                 {              
                 	tot_dutch = tot_dutch + num_sold[k];
-                	stu_raised[k] = DUTCH * num_sold[k];               
+                    stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
                 	dutch_raised = dutch_raised + stu_raised[k];
             	}
                 break;
@@ -128,7 +115,7 @@ int main()
                 else
                 {              
                 	tot_chip = tot_chip + num_sold[k];
-                	stu_raised[k] = CHIP * num_sold[k];
+                    stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
                 	chip_raised = chip_raised + stu_raised[k];
             	}               
                 break;
@@ -141,7 +128,7 @@ int main()
                 else
                 {              
                 	tot_sand = tot_sand + num_sold[k];
-                	stu_raised[k] = SAND * num_sold[k];            
+                	stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
                 	sand_raised = sand_raised + stu_raised[k];
             	}               
                 break;
@@ -221,17 +208,9 @@ int main()
 
     ClearScreen(24);
     cout << "\n\n         ****************** End of Run Report - List ******************"; 
-    cout << "\n\n      Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< tot_dutch;
-    cout << "\n      Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< tot_chip;
-    cout << "\n      Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< tot_sand;
-    cout << "\n      Total number of all gift cards sold\t\t\t" << setw (7) <<tot_card;
-    cout << "\n\n      Largest amount of individual funds raised\t\t\t" << setw(7) << max;
-    cout << "\n      Smallest amount of individual funds raised\t\t" << setw(7) << min;
-    cout << "\n      Average funds raised by a student\t\t\t\t" << setw(7) << avg_stu_raised;
-    cout << "\n\n      Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< dutch_raised;
-    cout << "\n      Total revenue from Chipotle gift cards\t\t\t" << setw(7) << chip_raised;
-    cout << "\n      Total revenue from Sandwich Spot gift cards\t\t" << setw(7) << sand_raised;
-    cout << "\n      Total revenue raised\t\t\t\t\t" << setw(7) << tot_raised;
+    ReportCardSold(dutch_raised, chip_raised, sand_raised, tot_raised);
+    ReportSimpleCalcFunds(max, min, avg_stu_raised);
+    ReportRevenue(tot_dutch, tot_chip, tot_sand, tot_raised);
     ClearScreen(7);
     cout << "\n                          Press enter to continue";
     cin.get();
@@ -246,6 +225,66 @@ void ClearScreen (int num)
 	for (i = 0; i < num; i++)
 		cout << "\n";
 	return;
+}
+
+void DashedLine (void)
+{
+    cout << "\n--------------------------------------\n";
+}
+
+int IdNumber (void)
+{
+    int id_num;
+    do
+    {
+        cout << "\nPlease enter 5 digit student ID number:\t\t\t\t" << setw(10); 
+        cin >> id_num;
+        if (!(id_num >= 10000 && id_num <= 99999))
+            cout << "\n  ==ERROR== \n**Invalid ID**\n";
+    }
+    while (!(id_num >= 10000 && id_num <= 99999)); //data validation requiring 5 digit ID
+    return id_num;
+}
+
+char CardType (void)
+{
+    char fcard_type;
+    do
+    {
+        cout << "\nPlease enter the type of card sold";
+        cout << "\n(D - Dutch Brothers, C - Chipotle, S - Sandwich Spot):\t\t";
+        cin >> fcard_type;
+        if (fcard_type != 'D' && fcard_type != 'd' && fcard_type != 'S' && fcard_type != 's' && fcard_type != 'C' && fcard_type != 'c')
+            cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
+    }
+    while (fcard_type != 'D' && fcard_type != 'd' && fcard_type != 'S' && fcard_type != 's' && fcard_type != 'C' && fcard_type != 'c'); //data validation allowing only the 6 possible letters
+    return fcard_type;
+}
+
+int CardSold (void)
+{
+    int fnum_sold;
+    do
+    {
+        cout << "\nPlease enter the number of cards sold: \t\t\t\t" << setw(10);
+        cin >> fnum_sold;
+        if (fnum_sold <= 0)
+            cout << "\n  ==ERROR== \n**Invalid Number**\n";
+    }
+    while (fnum_sold <= 0); //data validation for int only
+    return fnum_sold;
+}
+
+double StudentRaised (int fnum_sold, char fcard_type)
+{
+    double fstu_raised;
+    if (fcard_type == 'd' || fcard_type == 'D')
+        fstu_raised = fnum_sold * DUTCH;
+    else if (fcard_type == 'c' || fcard_type == 'C')
+        fstu_raised = fnum_sold * CHIP;
+    else
+        fstu_raised = fnum_sold * SAND;
+    return fstu_raised;
 }
 
 void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[])
@@ -290,4 +329,27 @@ void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany,
     while ((left > 0) && (swap_flag == 1));
         cout << "\t                ***Sorted Data - Revenue***\n\n";
     return;
+}
+
+int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
+{
+    cout << "\n\n      Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< ftot_dutch;
+    cout << "\n      Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< ftot_chip;
+    cout << "\n      Total number of Sandwich Spot gift cards sold\t\t" <<setw(7)<< ftot_sand;
+    cout << "\n      Total number of all gift cards sold\t\t\t" << setw (7) << ftot_card;
+}
+
+double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
+{
+    cout << "\n\n      Largest amount of individual funds raised\t\t\t" << setw(7) << fmax;
+    cout << "\n      Smallest amount of individual funds raised\t\t" << setw(7) << fmin;
+    cout << "\n      Average funds raised by a student\t\t\t\t" << setw(7) << favg_stu_raised;
+}
+
+double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised)
+{
+    cout << "\n\n      Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< fdutch_raised;
+    cout << "\n      Total revenue from Chipotle gift cards\t\t\t" << setw(7) << fchip_raised;
+    cout << "\n      Total revenue from Sandwich Spot gift cards\t\t" << setw(7) << fsand_raised;
+    cout << "\n      Total revenue raised\t\t\t\t\t" << setw(7) << ftot_raised;
 }

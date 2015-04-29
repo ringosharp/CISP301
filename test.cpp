@@ -319,9 +319,9 @@ void ClearScreen (int num)
 void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[])
 {
     int     int_temp,   //temp value for storing one integer
-            u,  //counter   
+            u,  		//counter   
             swap_flag,  //swapped if 1, no swap if 0
-            left;   //number comparisons to make
+            left;   	//number comparisons to make
     double  db_temp;    //temp value for storing one double
     char    ch_temp;    //temp value for storing one character
 
