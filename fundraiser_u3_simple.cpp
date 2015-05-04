@@ -32,9 +32,9 @@ void DashedLine (void);     //outputs
 int IdNumber (void);    //gets the id number, includes data validation
 char CardType (void);   //gets card type, includes data validation
 int CardSold (void);    //gets num sold, includes data validation
-double StudentRaised (int num_sold, char card_type);   //calculates the funds raised by a student
-void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[]); //sorts the array least to greatest by amount stuent sold
-int ReportCardSold (int tot_dutch, int tot_chip, int tot_sand, int tot_card);
+double StudentRaised (int fnum_sold, char fcard_type);   //calculates the funds raised by a student
+void BubbleSort (double fstu_raised[], int fid_num[], int fnum_sold[], int fhowmany, char fcard_type[]); //sorts the array least to greatest by amount stuent sold
+int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card);
 double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised);
 double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised);
 
@@ -219,6 +219,7 @@ int main()
 	return 0;
 }
 
+//Inserts a new line to clear the screen
 void ClearScreen (int num)
 {
 	int i;		//counter
@@ -227,11 +228,13 @@ void ClearScreen (int num)
 	return;
 }
 
+//Outputs a dashed line
 void DashedLine (void)
 {
     cout << "\n--------------------------------------\n";
 }
 
+//Asks user for and validates the 5 digit student ID number
 int IdNumber (void)
 {
     int id_num;
@@ -242,10 +245,11 @@ int IdNumber (void)
         if (!(id_num >= 10000 && id_num <= 99999))
             cout << "\n  ==ERROR== \n**Invalid ID**\n";
     }
-    while (!(id_num >= 10000 && id_num <= 99999)); //data validation requiring 5 digit ID
+    while (!(id_num >= 10000 && id_num <= 99999));
     return id_num;
 }
 
+//Asks user for and validates the card type
 char CardType (void)
 {
     char fcard_type;
@@ -257,10 +261,11 @@ char CardType (void)
         if (fcard_type != 'D' && fcard_type != 'd' && fcard_type != 'S' && fcard_type != 's' && fcard_type != 'C' && fcard_type != 'c')
             cout << "\n  ==ERROR== \n**Invalid Character**\n\n";
     }
-    while (fcard_type != 'D' && fcard_type != 'd' && fcard_type != 'S' && fcard_type != 's' && fcard_type != 'C' && fcard_type != 'c'); //data validation allowing only the 6 possible letters
+    while (fcard_type != 'D' && fcard_type != 'd' && fcard_type != 'S' && fcard_type != 's' && fcard_type != 'C' && fcard_type != 'c');
     return fcard_type;
 }
 
+//Asks user for and validates the number of cards sold
 int CardSold (void)
 {
     int fnum_sold;
@@ -271,10 +276,11 @@ int CardSold (void)
         if (fnum_sold <= 0)
             cout << "\n  ==ERROR== \n**Invalid Number**\n";
     }
-    while (fnum_sold <= 0); //data validation for int only
+    while (fnum_sold <= 0);
     return fnum_sold;
 }
 
+//
 double StudentRaised (int fnum_sold, char fcard_type)
 {
     double fstu_raised;
@@ -287,7 +293,8 @@ double StudentRaised (int fnum_sold, char fcard_type)
     return fstu_raised;
 }
 
-void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany, char card_type[])
+//Sorts the array of used values from least to greatest amount raised by student
+void BubbleSort (double fstu_raised[], int fid_num[], int fnum_sold[], int fhowmany, char fcard_type[])
 {
     int     int_temp,   //temp value for storing one integer
             u,          //counter   
@@ -297,29 +304,29 @@ void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany,
     char    ch_temp;    //temp value for storing one character
 
 
-    left = howmany - 1;
+    left = fhowmany - 1;
     do 
     {
         swap_flag = 0;
         for (u = 0; u < left; u++)
         {
-            if (stu_raised[u] > stu_raised[u+1]) //bubble condition
+            if (fstu_raised[u] > fstu_raised[u+1]) //bubble condition
             {
-                db_temp = stu_raised[u];    //moves the student raised
-                stu_raised[u] = stu_raised[u+1];
-                stu_raised[u+1] = db_temp;
+                db_temp = fstu_raised[u];    //moves the student raised
+                fstu_raised[u] = fstu_raised[u+1];
+                fstu_raised[u+1] = db_temp;
 
-                int_temp = id_num[u];   //moves the id num
-                id_num[u] = id_num[u+1];
-                id_num[u+1] = int_temp;
+                int_temp = fid_num[u];   //moves the id num
+                fid_num[u] = fid_num[u+1];
+                fid_num[u+1] = int_temp;
 
-                int_temp = num_sold[u]; //moves the num sold
-                num_sold[u] = num_sold[u+1];
-                num_sold[u+1] = int_temp;
+                int_temp = fnum_sold[u]; //moves the num sold
+                fnum_sold[u] = fnum_sold[u+1];
+                fnum_sold[u+1] = int_temp;
 
-                ch_temp = card_type[u]; //moves the card type
-                card_type[u] = card_type[u+1];
-                card_type[u+1] = ch_temp;
+                ch_temp = fcard_type[u]; //moves the card type
+                fcard_type[u] = fcard_type[u+1];
+                fcard_type[u+1] = ch_temp;
 
                 swap_flag = 1;
             }
@@ -331,6 +338,7 @@ void BubbleSort (double stu_raised[], int id_num[], int num_sold[], int howmany,
     return;
 }
 
+//Outputs the cards sold
 int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
 {
     cout << "\n\n      Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< ftot_dutch;
@@ -339,6 +347,7 @@ int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
     cout << "\n      Total number of all gift cards sold\t\t\t" << setw (7) << ftot_card;
 }
 
+//Outputs the largest, smallest, and avg funds raised
 double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
 {
     cout << "\n\n      Largest amount of individual funds raised\t\t\t" << setw(7) << fmax;
@@ -346,6 +355,7 @@ double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
     cout << "\n      Average funds raised by a student\t\t\t\t" << setw(7) << favg_stu_raised;
 }
 
+//Outputs the revenue raised
 double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised)
 {
     cout << "\n\n      Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< fdutch_raised;
