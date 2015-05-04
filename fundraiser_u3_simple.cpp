@@ -34,9 +34,9 @@ char CardType (void);   //gets card type, includes data validation
 int CardSold (void);    //gets num sold, includes data validation
 double StudentRaised (int fnum_sold, char fcard_type);   //calculates the funds raised by a student
 void BubbleSort (double fstu_raised[], int fid_num[], int fnum_sold[], int fhowmany, char fcard_type[]); //sorts the array least to greatest by amount stuent sold
-int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card);
-double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised);
-double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised);
+void ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card);
+void ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised);
+void ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised);
 
 int main()
 {
@@ -339,7 +339,7 @@ void BubbleSort (double fstu_raised[], int fid_num[], int fnum_sold[], int fhowm
 }
 
 //Outputs the cards sold
-int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
+void ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
 {
     cout << "\n\n      Total number of Dutch Brothers gift cards sold\t\t" << setw(7)<< ftot_dutch;
     cout << "\n      Total number of Chipotle gift cards sold\t\t\t" << setw(7)<< ftot_chip;
@@ -348,7 +348,7 @@ int ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card)
 }
 
 //Outputs the largest, smallest, and avg funds raised
-double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
+void ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
 {
     cout << "\n\n      Largest amount of individual funds raised\t\t\t" << setw(7) << fmax;
     cout << "\n      Smallest amount of individual funds raised\t\t" << setw(7) << fmin;
@@ -356,7 +356,7 @@ double ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised)
 }
 
 //Outputs the revenue raised
-double ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised)
+void ReportRevenue (double fdutch_raised, double fchip_raised, double fsand_raised, double ftot_raised)
 {
     cout << "\n\n      Total revenue from Dutch Brothers gift cards\t\t" <<setw(7)<< fdutch_raised;
     cout << "\n      Total revenue from Chipotle gift cards\t\t\t" << setw(7) << fchip_raised;
