@@ -1,0 +1,35 @@
+	                ***Raw Data ***
+Student ID    Card Type    Number Sold    Revenue Raised
+90000			c			  10			  15.00
+80000			d			   2			   2.00
+55555			s			   3			   6.00
+33333			C			  15			  22.50
+44444			S			   7			  14.00
+22222			D			   8			   8.00
+
+
+                ***Sorted Data - Revenue***
+Student ID    Card Type    Number Sold    Revenue Raised
+80000			d			   2			   2.00
+55555			s			   3			   6.00
+22222			D			   8			   8.00
+44444			S			   7			  14.00
+90000			c			  10			  15.00
+33333			C			  15			  22.50
+
+
+****************** End of Run Report ******************
+
+Total number of Dutch Brothers gift cards sold	     10
+Total number of Chipotle gift cards sold		     25
+Total number of Sandwich Spot gift cards sold	     10
+Total number of all gift cards sold				     45
+
+Largest amount of individual funds raised		  22.50
+Smallest amount of individual funds raised		   2.00
+Average funds raised by a student				  11.25
+
+Total revenue from Dutch Brothers gift cards	  10.00
+Total revenue from Chipotle gift cards			  37.50
+Total revenue from Sandwich Spot gift cards		  20.00
+Total revenue raised							  67.50

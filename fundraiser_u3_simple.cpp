@@ -32,7 +32,7 @@ void DashedLine (void);     //outputs
 int IdNumber (void);    //gets the id number, includes data validation
 char CardType (void);   //gets card type, includes data validation
 int CardSold (void);    //gets num sold, includes data validation
-double StudentRaised (int fnum_sold, char fcard_type);   //calculates the funds raised by a student
+double StudentRaised (int fnum_sold, int price);   //calculates the funds raised by a student
 void BubbleSort (double fstu_raised[], int fid_num[], int fnum_sold[], int fhowmany, char fcard_type[]); //sorts the array least to greatest by amount stuent sold
 void ReportCardSold (int ftot_dutch, int ftot_chip, int ftot_sand, int ftot_card);
 void ReportSimpleCalcFunds (double fmax, double fmin, double favg_stu_raised);
@@ -102,7 +102,7 @@ int main()
                 else
                 {              
                 	tot_dutch = tot_dutch + num_sold[k];
-                    stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
+                    stu_raised[k] = StudentRaised(num_sold[k], DUTCH);            
                 	dutch_raised = dutch_raised + stu_raised[k];
             	}
                 break;
@@ -115,7 +115,7 @@ int main()
                 else
                 {              
                 	tot_chip = tot_chip + num_sold[k];
-                    stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
+                    stu_raised[k] = StudentRaised(num_sold[k], CHIP);            
                 	chip_raised = chip_raised + stu_raised[k];
             	}               
                 break;
@@ -128,7 +128,7 @@ int main()
                 else
                 {              
                 	tot_sand = tot_sand + num_sold[k];
-                	stu_raised[k] = StudentRaised(num_sold[k], card_type[k]);            
+                	stu_raised[k] = StudentRaised(num_sold[k], SAND);            
                 	sand_raised = sand_raised + stu_raised[k];
             	}               
                 break;
@@ -281,15 +281,10 @@ int CardSold (void)
 }
 
 //
-double StudentRaised (int fnum_sold, char fcard_type)
+double StudentRaised (int fnum_sold, int price)
 {
     double fstu_raised;
-    if (fcard_type == 'd' || fcard_type == 'D')
-        fstu_raised = fnum_sold * DUTCH;
-    else if (fcard_type == 'c' || fcard_type == 'C')
-        fstu_raised = fnum_sold * CHIP;
-    else
-        fstu_raised = fnum_sold * SAND;
+    fstu_raised = fnum_sold * price;
     return fstu_raised;
 }
 
